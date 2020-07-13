@@ -10,7 +10,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md">
-            <h5>Estado <span class="badge badge-info">{{estados.length}}</span></h5>
+            <h5>Estados <span class="badge badge-info">{{estados.length}}</span></h5>
             <div class="card">
               <div class="card-body">
                 <ul class="list-group">
