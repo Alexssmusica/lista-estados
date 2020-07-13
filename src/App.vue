@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      id="slogan"
+      id="app"
       class="text-center"
     >
-      <h1>Lista de Estados <span class="fa fa-check"></span></h1>
+      <h1><span class="fa fa-list"/> Lista de Estados</h1>
     </div>
     <div class="main">
       <div class="container">
@@ -14,7 +14,11 @@
             <div class="card">
               <div class="card-body">
                 <ul class="list-group">
-                  <li class="list-group-item" v-for="estado in estados" v-bind:key="estado">
+                  <li
+                    class="list-group-item"
+                    v-for="estado in estados"
+                    v-bind:key="estado"
+                  >
                     {{estado}}
                   </li>
                 </ul>
@@ -26,7 +30,11 @@
             <div class="card">
               <div class="card-body">
                 <ul class="list-group">
-                  <li class="list-group-item" v-for="sigla in siglas" v-bind:key="sigla">
+                  <li
+                    class="list-group-item"
+                    v-for="sigla in siglas"
+                    v-bind:key="sigla"
+                  >
                     {{sigla}}
                   </li>
                 </ul>
@@ -40,22 +48,44 @@
 </template>
 
 <script>
+import axios from "axios/dist/axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
 
 export default {
 	name: "App",
-	data: function () {
+	data: function() {
 		return {
-			estados: ["Paraná", "Amazonas"],
-			siglas: ["PR", "AM"]
+			estados: [],
+			siglas: []
 		};
+	},
+
+	created() {
+		axios({
+			url: "http://localhost:4000/graphql",
+			method: "post",
+			data: {
+				query: `
+          {
+            ufs {              
+              nome
+              uf
+            }
+         }
+        `
+			}
+		}).then(response => {
+			const query = response.data;
+			this.estados = query.data.ufs.map(estado => estado.nome);
+			this.siglas = query.data.ufs.map(sigla => sigla.uf);
+		});
 	}
 };
 </script>
 
 <style>
-#slogan {
+#app {
   margin-top: 30px;
   margin-bottom: 30px;
 }
