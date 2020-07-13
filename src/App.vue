@@ -4,7 +4,7 @@
       id="app"
       class="text-center"
     >
-      <h1><span class="fa fa-list"/> Lista de Estados</h1>
+      <h1><span class="fa fa-list" /> Lista de Estados</h1>
     </div>
     <div class="main">
       <div class="container">
@@ -41,6 +41,22 @@
               </div>
             </div>
           </div>
+          <div class="col-md">
+            <h5>Capitais <span class="badge badge-info">{{capitais.length}}</span></h5>
+            <div class="card">
+              <div class="card-body">
+                <ul class="list-group">
+                  <li
+                    class="list-group-item"
+                    v-for="capital in capitais"
+                    v-bind:key="capital"
+                  >
+                    {{capital}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -57,7 +73,8 @@ export default {
 	data: function() {
 		return {
 			estados: [],
-			siglas: []
+			siglas: [],
+			capitais: []
 		};
 	},
 
@@ -71,6 +88,7 @@ export default {
             ufs {              
               nome
               uf
+              capital
             }
          }
         `
@@ -79,6 +97,7 @@ export default {
 			const query = response.data;
 			this.estados = query.data.ufs.map(estado => estado.nome);
 			this.siglas = query.data.ufs.map(sigla => sigla.uf);
+			this.capitais = query.data.ufs.map(capital => capital.capital);
 		});
 	}
 };
